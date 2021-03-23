@@ -6,6 +6,8 @@ import ast.Type;
 import ast.definitions.AbstractDefinition;
 import ast.statements.AbstractStatement;
 
+import java.util.List;
+
 public class VariableDefinition extends AbstractStatement implements Definition {
 	private int offset;
 	private Type type;
@@ -25,6 +27,12 @@ public class VariableDefinition extends AbstractStatement implements Definition 
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	public static void checkVariableErrors(List<VariableDefinition> definitions){
+		for(VariableDefinition var:definitions){
+
+		}
 	}
 
 }

@@ -1,4 +1,5 @@
 import ast.Program;
+import error.ErrorHandler;
 import parser.*;
 
 import org.antlr.v4.runtime.*;
@@ -22,8 +23,13 @@ public class Main {
 		CmmParser parser = new CmmParser(tokens);
 
 		Program ast = parser.program().ast;
-		IntrospectorModel model=new IntrospectorModel("Program", ast);
-		new IntrospectorTree("Introspector", model);
+
+		if(ErrorHandler.getInstance().anyError())
+			ErrorHandler.getInstance().showErrors(System.err);
+		else {
+			IntrospectorModel model = new IntrospectorModel("Program",ast);
+			new IntrospectorModel("Introspector", model);
+		}
 	}
 	
 

@@ -22,6 +22,7 @@ definitions returns[List<Definition> ast = new ArrayList<>()]:
 variableDefinition returns[List<VariableDefinition> ast = new ArrayList<>()]:
                     t=type id1=ID { $ast.add( new VariableDefinition($t.ast.getLine(),$t.ast.getColumn(),$t.ast,$id1.text) ); }
                     (',' id2=ID { $ast.add( new VariableDefinition($t.ast.getLine(),$t.ast.getColumn(),$t.ast,$id2.text) ); })* ';'
+                    { VariableDefinition.checkVariableErrors($ast); }
                     ;
 
 type returns[Type ast]:
@@ -133,9 +134,7 @@ primitive_type returns[Type ast]:
                 ;
 
 primitive_function_type returns[Type ast]:
-                           t='int' { $ast = new IntType($t.getLine(),$t.getCharPositionInLine()+1); }
-                         | t='char' { $ast = new CharType($t.getLine(),$t.getCharPositionInLine()+1); }
-                         | t='double' { $ast = new DoubleType($t.getLine(),$t.getCharPositionInLine()+1); }
+                           primitive_type { $ast = $primitive_type.ast; }
                          | t='void' { $ast = new VoidType($t.getLine(),$t.getCharPositionInLine()+1); }
                          ;
 

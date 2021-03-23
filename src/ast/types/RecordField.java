@@ -12,4 +12,17 @@ public class RecordField extends AbstractType { //extends AbstractASTNode
         this.type = type;
         this.name = name;
     }
+
+    @Override
+    public String toString(){
+        return  "[Record Field] Type:"+getType()+", Name:"+getName();
+    }
+
+    public Type getType() {
+        return this.type;
+    }
+
+    public String getName(){
+        return this.name;
+    }
 }

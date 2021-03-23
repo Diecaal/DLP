@@ -1,5 +1,11 @@
+[Lab 05]
 1. Take the existing AST implementation (lab 02)
 2. Take the language recognizer (lab 04)
 3. Adding embedded code to your ANTLR grammar, implement the language parser to create the AST
 4. Check its correctness by using Introspector
+[Lab 06]
+Add an ErrorHandler class to manage type errors. As an example, the compiler must show an error message for the input.txt file,
+indicating the line and column numbers. The rest of type errors will be handled in the following laboratories.
+
+
 
