@@ -2,6 +2,7 @@ package ast.statements;
 
 import ast.Expression;
 import ast.Statement;
+import semantic.Visitor;
 
 public class Read extends AbstractStatement {
     private Expression expression;
@@ -13,5 +14,10 @@ public class Read extends AbstractStatement {
 
     public Expression getExpression(){
         return this.expression;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this, param);
     }
 }

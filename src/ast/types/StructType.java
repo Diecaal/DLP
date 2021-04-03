@@ -1,6 +1,7 @@
 package ast.types;
 
 import ast.Type;
+import semantic.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,10 @@ public class StructType extends AbstractType {
         this.checkRepeatedFields();
     }
 
+    public List<RecordField> getRecordFields() {
+        return recordFields;
+    }
+
     private void checkRepeatedFields() {
         List<String> aux = new ArrayList<>();
         for(RecordField record:recordFields){
@@ -23,6 +28,11 @@ public class StructType extends AbstractType {
             else
                 new ErrorType(this.getLine(),this.getColumn(),"Duplicate field name: "+record.getName());
         }
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this, param);
     }
 
     @Override

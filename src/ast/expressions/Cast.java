@@ -2,6 +2,7 @@ package ast.expressions;
 
 import ast.Expression;
 import ast.Type;
+import semantic.Visitor;
 
 public class Cast extends AbstractExpression {
     private Expression expression;
@@ -11,5 +12,18 @@ public class Cast extends AbstractExpression {
         super(line, column);
         this.expression = expression;
         this.typeCast = typeCast;
+    }
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public Type getTypeCast() {
+        return typeCast;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this, param);
     }
 }

@@ -5,11 +5,13 @@ import ast.Statement;
 import ast.Type;
 import ast.definitions.AbstractDefinition;
 import ast.statements.AbstractStatement;
+import semantic.Visitor;
 
 import java.util.List;
 
 public class VariableDefinition extends AbstractStatement implements Definition {
 	private int offset;
+	private int scope;
 	private Type type;
 	private String name;
 
@@ -29,10 +31,20 @@ public class VariableDefinition extends AbstractStatement implements Definition 
 		return this.name;
 	}
 
-	public static void checkVariableErrors(List<VariableDefinition> definitions){
-		for(VariableDefinition var:definitions){
-
-		}
+	@Override
+	public int getScope() {
+		return this.scope;
 	}
+
+	@Override
+	public void setScope(int scope) {
+		this.scope = scope;
+	}
+
+	@Override
+	public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+		return v.visit(this, param);
+	}
+
 
 }

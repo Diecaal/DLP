@@ -2,6 +2,7 @@ package ast.statements;
 
 import ast.Expression;
 import ast.Statement;
+import semantic.Visitor;
 
 import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
@@ -29,5 +30,10 @@ public class If extends AbstractStatement {
 
     public List<Statement> getStatements_else(){
         return statements_else;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this, param);
     }
 }

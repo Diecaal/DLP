@@ -2,6 +2,7 @@ package ast.types;
 
 import ast.Type;
 import org.antlr.v4.codegen.model.ArgAction;
+import semantic.Visitor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +43,11 @@ public class ArrayType extends AbstractType {
             checked = (ArrayType) this.type;
         }
         return this; //end execution - return type handled
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this, param);
     }
 
     @Override

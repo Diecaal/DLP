@@ -1,6 +1,7 @@
 package ast.expressions;
 
 import ast.Expression;
+import semantic.Visitor;
 
 public class StructField extends AbstractExpression {
     private Expression expression; //pair.integer -> allow integer to be expression
@@ -10,5 +11,18 @@ public class StructField extends AbstractExpression {
         super(line, column);
         this.expression = expression;
         this.field = field;
+    }
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this, param);
     }
 }

@@ -1,6 +1,7 @@
 package ast.expressions;
 
 import ast.Expression;
+import semantic.Visitor;
 
 public class Arithmetic extends AbstractExpression {
     private String operator;
@@ -12,5 +13,18 @@ public class Arithmetic extends AbstractExpression {
         this.operator = operator;
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
+    }
+
+    public Expression getLeftExpression(){
+        return this.leftExpression;
+    }
+
+    public Expression getRightExpression(){
+        return this.rightExpression;
+    }
+
+    @Override
+    public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+        return v.visit(this, param);
     }
 }

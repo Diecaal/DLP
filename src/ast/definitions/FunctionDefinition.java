@@ -5,6 +5,7 @@ import ast.Statement;
 import ast.Type;
 import ast.definitions.AbstractDefinition;
 import ast.types.FunctionType;
+import semantic.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,4 +17,14 @@ public class FunctionDefinition extends AbstractDefinition {
 		super(line, column, name, functionType);
 		this.statements = new ArrayList<Statement>(statements);
 	}
+
+	public List<Statement> getStatements() {
+		return statements;
+	}
+
+	@Override
+	public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
+		return v.visit(this, param);
+	}
+
 }
