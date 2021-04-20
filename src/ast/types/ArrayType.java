@@ -1,5 +1,6 @@
 package ast.types;
 
+import ast.ASTNode;
 import ast.Type;
 import org.antlr.v4.codegen.model.ArgAction;
 import semantic.Visitor;
@@ -48,6 +49,26 @@ public class ArrayType extends AbstractType {
     @Override
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
         return v.visit(this, param);
+    }
+
+    @Override
+    public Type checkValidAssignment(Type type, ASTNode ast) {
+        if(type instanceof ArrayType){
+            Type arrayType = ((ArrayType)type).getType();
+            int arrayLength = ((ArrayType)type).getLength();
+            return new ArrayType(ast.getLine(),ast.getColumn(),arrayType,arrayLength);
+        } else {
+            return super.checkValidAssignment(type, ast); //Error behaviour
+        }
+    }
+
+    @Override
+    public Type squareBrackets(Type type, ASTNode ast) {
+        if(type instanceof IntType){ //Valid value for indexing
+            return this.type;
+        } else {
+            return super.squareBrackets(type, ast);
+        }
     }
 
     @Override

@@ -1,7 +1,10 @@
 package ast.types;
 
+import ast.ASTNode;
+import ast.Expression;
 import ast.Type;
 import ast.definitions.VariableDefinition;
+import ast.expressions.Variable;
 import semantic.Visitor;
 
 import java.util.ArrayList;
@@ -23,6 +26,19 @@ public class FunctionType extends AbstractType {
 
     public List<VariableDefinition> getParameters(){
         return this.parameters;
+    }
+
+    @Override
+    public Type checkValidInvoke(List<Expression> params, ASTNode ast) {
+        if( params.size() == this.getParameters().size()){ //Correct params numbers incoming-expected
+            for(int i=0;i<params.size();i++){
+                params.get(i).getType().checkValidAssignment(this.getParameters().get(i).getType(), ast);
+            }
+        } else { //Correct type for each param
+            String msg = "Number of parameters wrong, expected " + this.getParameters().size() + " received " + params.size();
+            return new ErrorType(ast.getLine(),ast.getColumn(), msg);
+        }
+        return this.returnType;
     }
 
     @Override

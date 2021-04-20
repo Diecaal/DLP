@@ -1,4 +1,4 @@
-// Generated from E:/1. Universidad/2.DLP/Lab07/src/parser\Cmm.g4 by ANTLR 4.9.1
+// Generated from E:/1. Universidad/2.DLP/Lab10/src/parser\Cmm.g4 by ANTLR 4.9.1
 package parser;
 
     import ast.*;
@@ -1371,7 +1371,7 @@ public class CmmParser extends Parser {
 						}
 						setState(307);
 						((ExpressionContext)_localctx).e2 = expression(7);
-						 ((ExpressionContext)_localctx).ast =  new Logical(((ExpressionContext)_localctx).e1.ast.getLine(), ((ExpressionContext)_localctx).e1.ast.getColumn(), ((ExpressionContext)_localctx).e1.ast, (((ExpressionContext)_localctx).op!=null?((ExpressionContext)_localctx).op.getText():null), ((ExpressionContext)_localctx).e2.ast); 
+						 ((ExpressionContext)_localctx).ast =  new Relational(((ExpressionContext)_localctx).e1.ast.getLine(), ((ExpressionContext)_localctx).e1.ast.getColumn(), ((ExpressionContext)_localctx).e1.ast, (((ExpressionContext)_localctx).op!=null?((ExpressionContext)_localctx).op.getText():null), ((ExpressionContext)_localctx).e2.ast); 
 						}
 						break;
 					case 4:

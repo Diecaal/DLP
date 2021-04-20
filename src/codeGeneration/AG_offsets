@@ -1,0 +1,26 @@
+P: Program: program -> definitions+
+R:  int paramBytesSum = 0;
+    for(int i=0;i<definitions+.size(); i--) {
+        Definition def = definitions*.get(i);
+        def.offset = 4 + definitionsBytesSum;
+        paramBytesSum += def.type.numberOfBytes();
+    }
+
+// Remember always look UML before further implementation
+P: FuncDefinition: funcDefinition -> type ID statements*
+R:  int localVariablesBytesSum = 0;
+    for(int i=0;i<statements*.size(); i++) {
+        VarDefinition varDefinition = statements*.get(i); // !!!!
+        varDefinition.offset = 4 + localVariablesBytesSum;
+        localVariablesBytesSum += varDefinition.type.numberOfBytes();
+    }
+
+P: FunctionType: type1 -> type2 varDefinition*
+R:  int paramBytesSum = 0;
+    for(int i=vardefinition*.size()-1; i>=0; i--) {
+        VarDefinition vardef = vardefinition*.get(i);
+        vardef.offset = 4 + paramBytesSum;
+        paramBytesSum += vardef.type.numberOfBytes();
+    }
+
+P: Variable: expression -> ID

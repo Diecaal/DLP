@@ -32,15 +32,15 @@ public class SymbolTable {
 	}
 	
 	public Definition find(String id) {
-		int currentScope = this.scope;
+		int initialScope = this.scope;
 		Definition definition = null;
-		while(currentScope >= 0){
-			if(definition==null) {
+		while(this.scope >= 0){
+			if(definition == null) {
 				definition = findInCurrentScope(id);
 				this.scope--;
 			}
 		}
-		this.scope = currentScope;
+		this.scope = initialScope;
 		return definition;
 	}
 

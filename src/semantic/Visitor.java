@@ -21,6 +21,7 @@ public interface Visitor<TP,TR> {
     TR visit(UnaryNegative ast, TP param);
     TR visit(UnaryMinus ast, TP param);
     TR visit(Variable ast, TP param);
+    TR visit(Relational ast, TP param);
 
     TR visit(Assignment ast, TP param);
     TR visit(FunctionInvocation ast, TP param);
@@ -42,4 +43,5 @@ public interface Visitor<TP,TR> {
 
     TR visit(FunctionDefinition ast, TP param);
     TR visit(VariableDefinition ast, TP param);
+
 }

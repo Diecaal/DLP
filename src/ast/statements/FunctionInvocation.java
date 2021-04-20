@@ -1,6 +1,7 @@
 package ast.statements;
 
 import ast.Expression;
+import ast.Type;
 import ast.expressions.AbstractExpression;
 import ast.expressions.Variable;
 import ast.statements.AbstractStatement;
@@ -13,6 +14,7 @@ public class FunctionInvocation extends AbstractStatement implements Expression 
     private List<Expression> expressions;
     private Variable variable;
     private boolean Lvalue;
+    private Type type;
 
     public FunctionInvocation(int line, int column, List<Expression> expressions, Variable variable) {
         super(line, column);
@@ -36,6 +38,16 @@ public class FunctionInvocation extends AbstractStatement implements Expression 
     @Override
     public boolean getLvalue() {
         return this.Lvalue;
+    }
+
+    @Override
+    public Type getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override

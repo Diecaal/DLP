@@ -16,11 +16,11 @@ public class Assignment extends AbstractStatement {
     }
 
     public Expression getLeft(){
-        return expressionLeft;
+        return this.expressionLeft;
     }
 
     public Expression getRight(){
-        return expressionRight;
+        return this.expressionRight;
     }
 
     @Override

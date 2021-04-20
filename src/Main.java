@@ -5,6 +5,8 @@ import parser.*;
 import org.antlr.v4.runtime.*;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
+import semantic.IdentificationVisitor;
+import semantic.TypeCheckingVisitor;
 
 public class Main {
 	
@@ -23,6 +25,8 @@ public class Main {
 		CmmParser parser = new CmmParser(tokens);
 
 		Program ast = parser.program().ast;
+		new IdentificationVisitor().visit(ast, null);
+		new TypeCheckingVisitor().visit(ast, null);
 
 		if(ErrorHandler.getInstance().anyError())
 			ErrorHandler.getInstance().showErrors(System.err);
@@ -31,6 +35,4 @@ public class Main {
 			new IntrospectorModel("Introspector", model);
 		}
 	}
-	
-
 }

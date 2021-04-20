@@ -23,6 +23,13 @@ public abstract class AbstractVisitor<TP,TR> implements Visitor<TP,TR> {
     }
 
     @Override
+    public TR visit(Relational ast, TP param) {
+        ast.getLeftExpression().accept(this, param);
+        ast.getRightExpression().accept(this, param);
+        return null;
+    }
+
+    @Override
     public TR visit(ArrayIndex ast, TP param) {
         ast.getArray().accept(this, param);
         ast.getIndex().accept(this, param);

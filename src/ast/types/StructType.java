@@ -1,5 +1,6 @@
 package ast.types;
 
+import ast.ASTNode;
 import ast.Type;
 import semantic.Visitor;
 
@@ -26,8 +27,19 @@ public class StructType extends AbstractType {
             if(!aux.contains(record.getName()))
                 aux.add(record.getName());
             else
-                new ErrorType(this.getLine(),this.getColumn(),"Duplicate field name: "+record.getName());
+                new ErrorType(this.getLine(),this.getColumn(),"Duplicate field name '"+record.getName() + "'");
         }
+    }
+
+    @Override
+    public Type dot(String Id, ASTNode ast) {
+        for(RecordField field : getRecordFields()){
+            if(field.getName().equals(Id)){
+                return field.getType();
+            }
+        }
+        String msg = "Field " + Id + " not present in Struct";
+        return new ErrorType(ast.getLine(),ast.getColumn(),msg);
     }
 
     @Override
@@ -37,6 +49,6 @@ public class StructType extends AbstractType {
 
     @Override
     public String toString(){
-        return "Struct Type, fields:"+recordFields;
+        return "Struct Type";
     }
 }
