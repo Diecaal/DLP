@@ -66,7 +66,7 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type,Type> {
     @Override
     public Type visit(ArrayIndex ast, Type param) {
         super.visit(ast, param);
-        ast.setLvalue( true );
+        ast.setLvalue(true);
         ast.setType( ast.getArray().getType().squareBrackets(ast.getIndex().getType(),ast));
         return null;
     }
