@@ -1,0 +1,65 @@
+#source	"input.txt"
+ 
+' * Integer i (offset 0)
+' * Integer n (offset 2)
+' * Char c (offset 4)
+' * Struct Type record (offset 5)
+ 
+' Invocation to main function
+call main
+halt
+ f:
+' * Parameters
+' * Integer a (offset 8)
+' * Double c (offset 4)
+' * Local Variables
+' * Double real (offset -4)
+enter	4
+push 	 bp
+pushi	-4
+addi
+push 	 bp
+pushi	4
+addi
+loadi
+storei
+pusha 	0
+push 	 bp
+pushi	8
+addi
+loadi
+storei
+* Return
+pusha 	2
+loadi
+ret	
+ main:
+' * Parameters
+' * Local Variables
+' * Integer i (offset -2)
+' * Double r (offset -6)
+enter	6
+push 	 bp
+pushi	-2
+addi
+loadi
+outi
+pusha 	2
+loadi
+push 	 bp
+pushi	-6
+addi
+loadi
+call f
+outi
+pusha 	5
+pushi	0
+addi
+loadi
+outi
+pusha 	5
+pushi	2
+addi
+loadi
+outi
+ret	 0, 6, 0

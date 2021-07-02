@@ -8,6 +8,8 @@ public class CharType extends AbstractType {
 
     public CharType(int line, int column) {
         super(line, column);
+
+        setNumberOfBytes(1);
     }
 
     @Override
@@ -42,6 +44,23 @@ public class CharType extends AbstractType {
         } else {
             return super.comparison(type, ast);
         }
+    }
+
+    @Override
+    public String suffix() {
+        return "i";
+    }
+
+    @Override
+    public String[] convertTo(Type type) {
+        if (type instanceof CharType) {
+            return new String[] {};
+        } else if (type instanceof IntType) {
+            return new String[] {"b2i"};
+        } else if (type instanceof DoubleType) {
+            return new String[] {"b2i", "i2f"};
+        }
+        return super.convertTo(type);
     }
 
     @Override

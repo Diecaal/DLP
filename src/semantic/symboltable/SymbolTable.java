@@ -7,6 +7,7 @@ public class SymbolTable {
 	
 	private int scope=0;
 	private List<Map<String,Definition>> table;
+
 	public SymbolTable()  {
 		table = new ArrayList<>();
 		table.add( new HashMap<>() );
@@ -34,11 +35,9 @@ public class SymbolTable {
 	public Definition find(String id) {
 		int initialScope = this.scope;
 		Definition definition = null;
-		while(this.scope >= 0){
-			if(definition == null) {
+		while( this.scope >= 0 && definition == null ){
 				definition = findInCurrentScope(id);
 				this.scope--;
-			}
 		}
 		this.scope = initialScope;
 		return definition;

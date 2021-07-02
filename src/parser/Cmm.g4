@@ -115,7 +115,7 @@ expression returns [Expression ast]:
           { $ast = new UnaryMinus($exp.ast.getLine(), $exp.ast.getColumn(), $exp.ast); }
           | '!' exp=expression
           { $ast = new UnaryNegative($exp.ast.getLine(), $exp.ast.getColumn(), $exp.ast); }
-          | e1=expression op=('*' | '%') e2=expression
+          | e1=expression op=('*' | '/' | '%') e2=expression
           { $ast = new Arithmetic($e1.ast.getLine(), $e1.ast.getColumn(), $e1.ast, $op.text, $e2.ast); }
           | e1=expression op=('+' | '-') e2=expression
           { $ast = new Arithmetic($e1.ast.getLine(), $e1.ast.getColumn(), $e1.ast, $op.text, $e2.ast); }

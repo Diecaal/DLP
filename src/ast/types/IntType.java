@@ -9,6 +9,7 @@ public class IntType extends AbstractType {
 
     public IntType(int line, int column) {
         super(line, column);
+        setNumberOfBytes(2);
     }
 
     @Override
@@ -65,6 +66,23 @@ public class IntType extends AbstractType {
     @Override
     public boolean isBoolean(ASTNode ast) {
         return true;
+    }
+
+    @Override
+    public String suffix() {
+        return "i";
+    }
+
+    @Override
+    public String[] convertTo(Type type) {
+        if (type instanceof CharType) {
+            return new String[] {"i2b"};
+        } else if (type instanceof IntType) {
+            return new String[] {};
+        } else if (type instanceof DoubleType) {
+            return new String[] {"i2f"};
+        }
+        return super.convertTo(type);
     }
 
     @Override

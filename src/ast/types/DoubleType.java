@@ -8,6 +8,8 @@ public class DoubleType extends AbstractType {
 
     public DoubleType(int line, int column) {
         super(line, column);
+
+        setNumberOfBytes(4);
     }
 
     @Override
@@ -45,6 +47,23 @@ public class DoubleType extends AbstractType {
     @Override
     public Type checkValidMinus(ASTNode ast) {
         return new DoubleType(ast.getLine(), ast.getColumn());
+    }
+
+    @Override
+    public String suffix() {
+        return "i";
+    }
+
+    @Override
+    public String[] convertTo(Type type) {
+        if (type instanceof CharType) {
+            return new String[] {"f2i", "i2b"};
+        } else if (type instanceof IntType) {
+            return new String[] {"f2i"};
+        } else if (type instanceof DoubleType) {
+            return new String[] {};
+        }
+        return super.convertTo(type);
     }
 
     @Override

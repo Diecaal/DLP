@@ -125,7 +125,6 @@ public class TypeCheckingVisitor extends AbstractVisitor<Type,Type> {
         return null;
     }
 
-    /* Errors Section */
     @Override
     public Type visit(Assignment ast, Type param) {
         super.visit(ast, param);

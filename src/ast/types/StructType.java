@@ -2,6 +2,7 @@ package ast.types;
 
 import ast.ASTNode;
 import ast.Type;
+import ast.definitions.VariableDefinition;
 import semantic.Visitor;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class StructType extends AbstractType {
         this.recordFields = new ArrayList<RecordField>(recordFields);
 
         this.checkRepeatedFields();
+        this.setNumberOfBytes(-1);
     }
 
     public List<RecordField> getRecordFields() {
@@ -31,6 +33,14 @@ public class StructType extends AbstractType {
         }
     }
 
+    public RecordField getField(String field) {
+        for(RecordField record : recordFields){
+            if(record.getName().equals(field))
+                return record;
+        }
+        return null;
+    }
+
     @Override
     public Type dot(String Id, ASTNode ast) {
         for(RecordField field : getRecordFields()){
@@ -40,6 +50,15 @@ public class StructType extends AbstractType {
         }
         String msg = "Field " + Id + " not present in Struct";
         return new ErrorType(ast.getLine(),ast.getColumn(),msg);
+    }
+
+    @Override
+    public void setNumberOfBytes(int numberOfBytes) {
+        int fieldsBytes = 0;
+        for(RecordField field : getRecordFields()){
+            fieldsBytes += field.getType().getNumberOfBytes();
+        }
+        super.setNumberOfBytes(fieldsBytes);
     }
 
     @Override

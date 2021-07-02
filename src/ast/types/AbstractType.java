@@ -9,6 +9,8 @@ import java.util.List;
 
 public abstract class AbstractType extends AbstractASTNode implements Type {
 
+    private int numberOfBytes = 0;
+
     public AbstractType(int line, int column) {
         super(line, column);
     }
@@ -70,6 +72,25 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
     @Override
     public boolean isBoolean(ASTNode ast) {
         return false;
+    }
+
+    @Override
+    public String suffix() {
+        return null;
+    }
+
+    @Override
+    public int getNumberOfBytes() {
+        return numberOfBytes;
+    }
+
+    public void setNumberOfBytes(int numberOfBytes) {
+        this.numberOfBytes = numberOfBytes;
+    }
+
+    @Override
+    public String[] convertTo(Type to) {
+        throw new RuntimeException("Convert " + this.toString() + " to " + to.toString() + " not allowed");
     }
 
 }

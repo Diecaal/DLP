@@ -16,4 +16,8 @@ public interface Type extends ASTNode {
     Type checkValidNegation(ASTNode ast);
     Type checkValidInvoke(List<Expression> params, ASTNode ast);
     boolean isBoolean(ASTNode ast);
+
+    int getNumberOfBytes();
+    String suffix();
+    String[] convertTo(Type to);
 }

@@ -16,6 +16,8 @@ public class ArrayType extends AbstractType {
         super(line, column);
         this.type = type;
         this.length = length;
+
+        setNumberOfBytes( this.length * this.type.getNumberOfBytes() );
     }
 
     public Type getType(){
@@ -63,12 +65,12 @@ public class ArrayType extends AbstractType {
     }
 
     @Override
-    public Type squareBrackets(Type type, ASTNode ast) {
-        if(type instanceof IntType){ //Valid value for indexing
+    public Type squareBrackets(Type paramType, ASTNode ast) {
+        if(paramType instanceof IntType){ //Valid value for indexing
             return this.type;
-        } else {
-            return super.squareBrackets(type, ast);
         }
+
+        return super.squareBrackets(paramType, ast);
     }
 
     @Override

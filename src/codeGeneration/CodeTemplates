@@ -1,0 +1,152 @@
+/* VALUE Templates [Expression/FunctionInvocation] */
+    // Arithmetic
+    value[[Arithmetic: exp1 -> exp2 (+|-|*|/) exp3]] =
+        value[[exp2]]
+        exp2.type.convertTo(exp1.type);
+        value[[exp3]]
+        exp3.type.convertTo(exp1.type);
+        switch(exp1.operator) {
+            case "+" : <add> exp1.type.suffix(); break;
+            case "-" : <sub> exp1.type.suffix(); break;
+            case "*" : <mul> exp1.type.suffix(); break;
+            case "/" : <div> exp1.type.suffix(); break;
+        }
+
+    // Relational
+    value[[Relational: exp1 -> exp2 (>|>=|<|<=|!=|==) exp3]] =
+        value[[exp2]]
+        value[[exp3]]
+        switch (exp1.operator) {
+         case ">": <gt> exp1.type.suffix() break;
+         case ">=": <ge> exp1.type.suffix() break;
+         case "<": <lt> exp1.type.suffix() break;
+         case "<=": <le> exp1.type.suffix() break;
+         case "!=": <ne> exp1.type.suffix() break;
+         case "==": <eq> exp1.type.suffix() break;
+    }
+
+    // Logical
+    value[[Logical: exp1 -> exp2 (&& | ||) exp3]] =
+     value[[exp2]]
+     value[[exp3]]
+     switch (exp1.operator) {
+         case "&&": <and> break;
+         case "||": <or> break;
+    }
+
+    // UnaryNegative
+    value[[UnaryNegative: exp1 -> ! exp2]] =
+        value[[exp2]]
+        <not>
+
+    // RealLiteral
+    value[[RealLiteral: exp -> REAL_CONSTANT]] =
+        <pushf> exp.value
+
+    // IntLiteral
+    value[[IntLiteral: exp -> INT_CONSTANT]] =
+        <pushi> exp.value
+
+    // CharLiteral
+    value[[CharLiteral: exp -> CHAR_CONSTANT]] =
+        <pushb> exp.value
+
+    // Cast
+    value[[Cast: exp1 -> type exp2]] =
+        value[[exp2]]
+        exp2.type.convertTo(type)
+
+    // Variable
+    value[[Variable: exp -> ID]] =
+        address[[exp]]
+        <load> exp.type.suffix()
+
+    // Array Index
+    value[[ArrayIndex: expression1 -> expression2 [ expression3 ] ]] =
+        address[[expression1]]
+        <load> expression2.type.arrayType.suffix()
+
+    // Function Invocation
+    value[[FunctionInvocation: expression1 -> expression2 ( params* )]] =
+        params*.forEach( exp -> value[[exp]] )
+        <call> expression2.name
+
+    // Struct Field
+    value[StructField: expression1 -> expression2 . ID] =
+        address[[expression1]]
+        <load> expression1.type.suffix()
+
+/* EXECUTE Templates [Statement/Definition/Program] */
+
+    // Program
+    execute[[Program: program -> definition*]] =
+        definition*.forEach( def -> execute[[def]] )
+        <call main>
+        <halt>
+
+    // Write
+    execute[[Write: stm -> exp]] =
+        value[[exp]]
+        <out> exp.type.suffix()
+
+    // Read
+    execute[[Read: stm -> exp]] =
+        address[[exp]]
+        <in> exp.type.suffix()
+        <store> exp.type.suffix()
+
+    // Assignment
+    execute[[Assignment: stm -> exp1 exp2]] =
+        address[[exp1]]
+        value[[exp2]]
+        <store> exp1.type.suffix()
+
+    // Function Type
+    execute[[FunctionType: type1 -> variableDefinition* type2]] =
+        variableDefinition*.forEach(p -> execute[[p]]);
+
+    // Variable Definition
+    execute[[VariableDefinition: def -> type ID]] =
+         <' *> type.toString() ID <offset(> def.offset <)>
+
+    // Return
+    execute[[Return: statement -> exp]](int bytesLocals, int bytesParams, int bytesReturn) =
+        value[[exp]]
+        <ret > bytesLocals <, > bytesParams <, > bytesReturn
+
+    // If (else)
+    execute[[If: statement1 -> exp statement2* statement3*]] =
+        int labelNumber = cg.getLabels(2);
+        <' * If statement>
+        value[[exp]] //Condition
+        <jz > labelNumber
+        <' * Body IF >
+        statement2*.forEach( stm -> execute[[stm](...)]) // If Body
+        <jmp > (labelNumber+1)
+        // Else label jump
+        <label> labelNumber <:>
+        <' * Body ELSE >
+        statement3*.forEach( stm -> execute[[stm](...)]) // Else Body
+        <label> (labelNumber+1) <:> //we need to declare jump exit label
+
+    // While
+    execute[[WhileLoop: statement1 -> expression statement2*]] =
+        int labelNumber = cg.getLabel(2);
+        <' * While>
+        <label> labelNumber <:>
+        // While condition
+        value[[expression]]
+        <jz label> (labelNumber+1)
+        // While body - entered if labelNumber+1 did not take place
+        <' * Body of the while statement>
+        statement2*.forEach( stm -> execute[[stm]])
+        // Jumps
+        <jmp label> labelNumber
+        <label> (labelNumber+1) <:> //we need to declare jump exit label
+
+    // Function Invocation
+    execute[[FunctionInvocation: statement -> expression1 expression2*]] =
+        expression2*.forEach( exp -> value[[exp]] )
+        <call > expression1.name
+        if ( !expression1.type.returnType instanceof VoidType )
+            <pop> expression1.type.returnType.suffix()

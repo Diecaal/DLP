@@ -11,6 +11,7 @@ import java.util.List;
 public class If extends AbstractStatement {
     private List<Statement> statements_if;
     private List<Statement> statements_else;
+    /* Condition */
     private Expression expression;
 
     public If(int line, int column, Expression expression, List<Statement> statements_if, List<Statement> statements_else) {

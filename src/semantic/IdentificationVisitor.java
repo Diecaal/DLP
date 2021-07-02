@@ -29,6 +29,7 @@ public class IdentificationVisitor extends AbstractVisitor<Void,Void> {
             symbolTable.set();
             super.visit(ast, param); //Traverse functionDefinition coupled
             symbolTable.reset();
+            return null;
         }
         return null;
     }
@@ -37,9 +38,10 @@ public class IdentificationVisitor extends AbstractVisitor<Void,Void> {
     public Void visit(Variable ast, Void param) {
         Definition definition =  symbolTable.find(ast.getName());
 
-        if( definition == null )
-            new ErrorType(ast.getLine(), ast.getColumn(),"Identifier " + ast.getName() + " is not defined");
-        // After retrieving definition in scope, needed to be assigned in ast (Variable)
+        /* if( definition == null )  Already checked in TypeChecking, but additionally can be added here other ones */
+        //    new ErrorType(ast.getLine(), ast.getColumn(),"Identifier " + ast.getName() + " is not defined");
+
+        /* After retrieving definition in scope, needed to be assigned in ast (Variable) */
         ast.setDefinition( definition );
 
         return super.visit(ast, param);

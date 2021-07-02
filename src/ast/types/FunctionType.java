@@ -28,6 +28,10 @@ public class FunctionType extends AbstractType {
         return this.parameters;
     }
 
+    public Type getReturnType() {
+        return this.returnType;
+    }
+
     @Override
     public Type checkValidInvoke(List<Expression> params, ASTNode ast) {
         if( params.size() == this.getParameters().size()){ //Correct params numbers incoming-expected

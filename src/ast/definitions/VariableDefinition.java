@@ -41,6 +41,14 @@ public class VariableDefinition extends AbstractStatement implements Definition 
 		this.scope = scope;
 	}
 
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
 	@Override
 	public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
 		return v.visit(this, param);
