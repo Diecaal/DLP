@@ -1,17 +1,17 @@
 import ast.Program;
-import codeGeneration.AddressCGVisitor;
-import codeGeneration.CodeGenerator;
-import codeGeneration.ExecuteCGVisitor;
-import codeGeneration.ValueCGVisitor;
+import codeGeneration.visitor.AddressCGVisitor;
+import codeGeneration.utils.CodeGenerator;
+import codeGeneration.visitor.ExecuteCGVisitor;
+import codeGeneration.visitor.ValueCGVisitor;
 import error.ErrorHandler;
 import parser.*;
 
 import org.antlr.v4.runtime.*;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
-import semantic.IdentificationVisitor;
+import semantic.identification.IdentificationVisitor;
 import semantic.OffsetVisitor;
-import semantic.TypeCheckingVisitor;
+import semantic.typeChecking.TypeCheckingVisitor;
 
 public class Main {
 	

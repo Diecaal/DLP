@@ -51,7 +51,7 @@ public class DoubleType extends AbstractType {
 
     @Override
     public String suffix() {
-        return "i";
+        return "f";
     }
 
     @Override

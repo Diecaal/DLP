@@ -2,8 +2,10 @@ package ast.expressions;
 
 import ast.Expression;
 import semantic.Visitor;
+import semantic.symboltable.SymbolTable;
 
 public class CharLiteral extends AbstractExpression {
+
     private char value;
 
     public CharLiteral(int line, int column, char value) {

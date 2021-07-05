@@ -1,4 +1,4 @@
-package codeGeneration;
+package codeGeneration.visitor;
 
 import ast.Expression;
 import ast.expressions.Arithmetic;
@@ -13,8 +13,8 @@ import ast.expressions.StructField;
 import ast.expressions.UnaryMinus;
 import ast.expressions.UnaryNegative;
 import ast.expressions.Variable;
-import ast.statements.Assignment;
 import ast.statements.FunctionInvocation;
+import codeGeneration.visitor.AbstractCGVisitor;
 
 public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
 
@@ -49,7 +49,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
                 break;
         }
 
-        return super.visit(ast, param);
+        return null;
     }
 
     @Override
@@ -78,14 +78,16 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
             default:
                 break;
         }
-        return super.visit(ast, param);
+
+        return null;
     }
 
     @Override
     public Void visit(ArrayIndex ast, Void param) {
         ast.accept(address, param);
         cg.writeInstruction("load" + ast.getType().suffix());
-        return super.visit(ast, param);
+
+        return null;
     }
 
     @Override
@@ -93,25 +95,29 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
         ast.getExpression().accept(this, param);
         String[] castLines = ast.getExpression().getType().convertTo(ast.getTypeCast());
         cg.writeInstructions( castLines );
-        return super.visit(ast, param);
+
+        return null;
     }
 
     @Override
     public Void visit(CharLiteral ast, Void param) {
         cg.writeInstruction("pushb\t" + ast.getASCII());
-        return super.visit(ast, param);
+
+        return null;
     }
 
     @Override
     public Void visit(IntLiteral ast, Void param) {
         cg.writeInstruction("pushi\t" + ast.getValue());
-        return super.visit(ast, param);
+
+        return null;
     }
 
     @Override
     public Void visit(RealLiteral ast, Void param) {
-        cg.writeInstruction("pushi\t" + ast.getValue());
-        return super.visit(ast, param);
+        cg.writeInstruction("pushf\t" + ast.getValue());
+
+        return null;
     }
 
     @Override
@@ -124,7 +130,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
         else if(ast.getOperator().equals("||"))
             cg.writeInstruction("or\t");
 
-        return super.visit(ast, param);
+        return null;
     }
 
     @Override
@@ -132,7 +138,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
         ast.accept(address, param);
         cg.writeInstruction("load" + ast.getType().suffix());
 
-        return super.visit(ast, param);
+        return null;
     }
 
     @Override
@@ -140,7 +146,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
         ast.getExpression().accept(this, param);
         cg.writeInstruction("not");
 
-        return super.visit(ast, param);
+        return null;
     }
 
     @Override
@@ -148,7 +154,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
         ast.getExpression().accept(this, param);
         cg.writeInstruction("-");
 
-        return super.visit(ast, param);
+        return null;
     }
 
     @Override
@@ -156,7 +162,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
         ast.accept(address, param);
         cg.writeInstruction("load" + ast.getType().suffix());
 
-        return super.visit(ast, param);
+        return null;
     }
 
 
@@ -166,7 +172,7 @@ public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
             funcParam.accept(value, param);
         cg.writeInstruction("call " + ast.getVariable().getName());
 
-        return super.visit(ast, param);
+        return null;
     }
 }
 

@@ -1,10 +1,11 @@
-package codeGeneration;
+package codeGeneration.visitor;
 
 import ast.Program;
 import ast.definitions.*;
 import ast.expressions.*;
 import ast.statements.*;
 import ast.types.*;
+import codeGeneration.utils.CodeGenerator;
 import semantic.AbstractVisitor;
 
 public abstract class AbstractCGVisitor<TP,TR> extends AbstractVisitor<TP,TR> {
@@ -144,12 +145,12 @@ public abstract class AbstractCGVisitor<TP,TR> extends AbstractVisitor<TP,TR> {
     }
 
     @Override
-    public TR visit(RecordField ast, TP param) {
+    public TR visit(StructType ast, TP param) {
         return null;
     }
 
     @Override
-    public TR visit(StructType ast, TP param) {
+    public TR visit(RecordField ast, TP param) {
         return null;
     }
 

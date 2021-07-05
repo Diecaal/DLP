@@ -1,11 +1,12 @@
 package codeGeneration.utils.execute;
 
 public class ReturnStatementDTO {
-    public int bytesLocals, bytesParams, bytesReturn;
 
-    public ReturnStatementDTO(int bytesLocals, int bytesParams, int bytesReturn){
-        this.bytesLocals = bytesLocals;
-        this.bytesParams = bytesParams;
-        this.bytesReturn = bytesReturn;
+    public int localBytes, parametersBytes, returnBytes;
+
+    public ReturnStatementDTO(int localBytes, int parametersBytes, int returnBytes){
+        this.localBytes = localBytes;
+        this.parametersBytes = parametersBytes;
+        this.returnBytes = returnBytes;
     }
 }

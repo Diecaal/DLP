@@ -41,6 +41,8 @@ public class ArrayType extends AbstractType {
         ArrayType checked = null;
         if (type instanceof ArrayType) { // Continue
             checked = ((ArrayType) type).createArraySubType(line, column, this.type, length);
+            /* If array dimension > 1, we need to calculate again its number of bytes */
+            checked.setNumberOfBytes( checked.length * checked.type.getNumberOfBytes() );
         } else { // Default brk
             this.type = new ArrayType(line,column, this.type, length);
             checked = (ArrayType) this.type;

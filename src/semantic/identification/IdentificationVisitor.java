@@ -1,10 +1,11 @@
-package semantic;
+package semantic.identification;
 
 import ast.Definition;
 import ast.definitions.FunctionDefinition;
 import ast.definitions.VariableDefinition;
 import ast.expressions.*;
 import ast.types.ErrorType;
+import semantic.AbstractVisitor;
 import semantic.symboltable.SymbolTable;
 import semantic.symboltable.SymbolTableTest;
 

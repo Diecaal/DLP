@@ -1,4 +1,4 @@
-package codeGeneration;
+package codeGeneration.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,6 +11,7 @@ public class CodeGenerator {
     private int currentLabel = 0;
 
     public void writeInstruction(String code) {
+        codeGenerated.append("\t");
         codeGenerated.append(code + "\n");
     }
 
@@ -54,5 +55,9 @@ public class CodeGenerator {
 
     public void writeLabel(int labelNumber) {
         codeGenerated.append(String.format(" label%d:\n", labelNumber));
+    }
+
+    public void writeLine(int line) {
+        codeGenerated.append(String.format("#Line\t%d\n", line));
     }
 }

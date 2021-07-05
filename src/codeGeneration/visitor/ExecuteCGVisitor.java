@@ -1,4 +1,4 @@
-package codeGeneration;
+package codeGeneration.visitor;
 
 import ast.Definition;
 import ast.Program;
@@ -45,7 +45,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
         for(int i = indexLastVariableDef; i < ast.getDefinitions().size() ; i++) {
             ast.getDefinitions().get(i).accept(execute, param);
         }
-        /* TODO */
+
         cg.showProgram();
 
         return null;
@@ -53,6 +53,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(FunctionInvocation ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
         ast.getExpressions().forEach(funcParam -> funcParam.accept(value, null));
         cg.writeInstruction("call\t" + ast.getVariable().getName());
 
@@ -65,29 +66,32 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(If ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
         int firstLabel = cg.requestLabels(2); // 2 labels IF - ELSE
         int secondLabel = firstLabel + 1;
 
         cg.writeComment("* IF Statement");
         ast.getExpression().accept(value, null);
-        cg.writeInstruction(String.format("jz\t label", firstLabel));
+        cg.writeInstruction(String.format("jz\tlabel%d", firstLabel));
 
         cg.writeComment("* IF Branch Body");
         ast.getStatements_if().forEach(statement -> statement.accept(execute, param));
-        cg.writeInstruction(String.format("jmp\tlabel:", secondLabel));
+        cg.writeInstruction(String.format("jmp\tlabel%d", secondLabel));
 
-        cg.writeInstruction(String.format("label%d:", firstLabel));
+        cg.writeLabel(firstLabel);
 
         cg.writeComment("* ELSE Branch Body");
         ast.getStatements_else().forEach(statement -> statement.accept(execute, param));
 
-        cg.writeInstruction(String.format("label%d", secondLabel));
+        cg.writeLabel(secondLabel);
 
         return null;
     }
 
     @Override
     public Void visit(Read ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
+        cg.writeComment("* Read");
         ast.getExpression().accept(address, null);
         cg.writeInstruction("in" + ast.getExpression().getType().suffix());
         cg.writeInstruction("store" + ast.getExpression().getType().suffix());
@@ -97,15 +101,18 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(Return ast, ReturnStatementDTO param) {
-        cg.writeInstruction("* Return");
+        cg.writeLine(ast.getLine());
+        cg.writeComment("* Return");
         ast.getExpression().accept(value, null);
-        cg.writeInstruction("ret\t"); /* ADD HERE (int bytesLocals, int bytesParams, int bytesReturn) */
+        /* Return bytes -> return / local / parameters */
+        cg.writeInstruction(String.format("ret\t %d, %d, %d", param.returnBytes, param.localBytes, param.parametersBytes));
 
         return null;
     }
 
     @Override
     public Void visit(While ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
         int firstLabel = cg.requestLabels(2); // 2 labels WHILE
 
         cg.writeComment("* WHILE Statement");
@@ -125,6 +132,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(Write ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
+        cg.writeComment("* Write");
         ast.getExpression().accept(value, null);
         cg.writeInstruction("out" + ast.getExpression().getType().suffix());
 
@@ -133,6 +142,8 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(Assignment ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
+        cg.writeComment("* Assignment");
         ast.getLeft().accept(address, null);
         ast.getRight().accept(value, null);
         cg.writeInstruction("store" + ast.getLeft().getType().suffix());
@@ -142,6 +153,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(FunctionType ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
         cg.writeComment("* Parameters");
         ast.getParameters().forEach(p -> p.accept(execute, param));
 
@@ -150,6 +162,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(FunctionDefinition ast, ReturnStatementDTO param) {
+        cg.writeLine(ast.getLine());
         cg.writeInstruction(" " + ast.getName() + ":");
 
         ast.getType().accept(execute, param);
@@ -191,6 +204,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(VariableDefinition ast, ReturnStatementDTO param) {
+        //cg.writeLine(ast.getLine());
         cg.writeComment(String.format("* %s %s (offset %s)", ast.getType(), ast.getName(), ast.getOffset()));
         return null;
     }

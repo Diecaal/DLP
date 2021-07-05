@@ -42,6 +42,7 @@ recordField returns[List<RecordField> ast = new ArrayList<>()]:
 
 recordField_usage returns[List<RecordField> ast = new ArrayList<>()]:
                     t1=primitive_type ID { $ast.add(new RecordField( $t1.ast.getLine(),$t1.ast.getColumn(),$t1.ast,$ID.text )); }
+                    (',' id2=ID { $ast.add(new RecordField( $t1.ast.getLine(),$t1.ast.getColumn(),$t1.ast,$id2.text )); })*
                   ;
 
 // Functions

@@ -1,4 +1,4 @@
-package semantic;
+package semantic.typeChecking;
 
 import ast.*;
 import ast.definitions.*;
@@ -6,6 +6,7 @@ import ast.expressions.*;
 import ast.types.*;
 import ast.statements.*;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.RealType;
+import semantic.AbstractVisitor;
 
 public class TypeCheckingVisitor extends AbstractVisitor<Type,Type> {
 
