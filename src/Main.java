@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.*;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 import semantic.identification.IdentificationVisitor;
-import semantic.OffsetVisitor;
+import semantic.offset.OffsetVisitor;
 import semantic.typeChecking.TypeCheckingVisitor;
 
 public class Main {

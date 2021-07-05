@@ -77,6 +77,6 @@ public class ArrayType extends AbstractType {
 
     @Override
     public String toString(){
-        return  "Array, type:"+getType()+", length:"+getLength();
+        return  String.format("%s[%d]",getType(),getLength());
     }
 }

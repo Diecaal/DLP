@@ -1,8 +1,9 @@
-package semantic;
+package semantic.offset;
 
 import ast.Statement;
 import ast.definitions.*;
 import ast.types.*;
+import semantic.AbstractVisitor;
 
 import java.util.List;
 

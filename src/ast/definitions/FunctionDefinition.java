@@ -35,4 +35,8 @@ public class FunctionDefinition extends AbstractDefinition {
 		return v.visit(this, param);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s %s", getName(), getFunctionType());
+	}
 }

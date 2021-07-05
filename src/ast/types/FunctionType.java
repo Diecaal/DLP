@@ -52,6 +52,9 @@ public class FunctionType extends AbstractType {
 
     @Override
     public String toString(){
-        return "Function Type, return:"+getType()+", parameters:"+getParameters();
+        StringBuilder sb = new StringBuilder(getReturnType().toString() + " (");
+        getParameters().forEach(param -> sb.append(param.toString()));
+        sb.append(")");
+        return sb.toString();
     }
 }

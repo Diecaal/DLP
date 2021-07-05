@@ -37,4 +37,18 @@ public class If extends AbstractStatement {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
         return v.visit(this, param);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("if(" + getExpression() + ") {");
+        getStatements_if().forEach(s -> sb.append("\n\t" + s));
+        sb.append("\n}");
+        if(getStatements_else().size() > 0) {
+            sb.append(" else {");
+            getStatements_else().forEach(s -> sb.append("\n\t" + s));
+            sb.append("\n}");
+        }
+        return sb.toString();
+    }
 }

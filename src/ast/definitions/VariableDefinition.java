@@ -54,5 +54,9 @@ public class VariableDefinition extends AbstractStatement implements Definition 
 		return v.visit(this, param);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s %s", getType(), getName());
+	}
 
 }

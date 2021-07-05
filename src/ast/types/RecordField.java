@@ -38,7 +38,7 @@ public class RecordField extends AbstractType { //extends AbstractASTNode
 
     @Override
     public String toString(){
-        return  "[Record Field] Type:"+getType()+", Name:"+getName();
+        return String.format("%s %s", getType(), getName());
     }
 
 }

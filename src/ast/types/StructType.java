@@ -2,7 +2,6 @@ package ast.types;
 
 import ast.ASTNode;
 import ast.Type;
-import ast.definitions.VariableDefinition;
 import semantic.Visitor;
 
 import java.util.ArrayList;
@@ -68,6 +67,9 @@ public class StructType extends AbstractType {
 
     @Override
     public String toString(){
-        return "Struct Type";
+        StringBuilder sb = new StringBuilder("struct { ");
+        getRecordFields().forEach(record -> sb.append(record.toString() + ", "));
+        sb.append(" }");
+        return sb.toString();
     }
 }

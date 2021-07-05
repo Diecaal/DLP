@@ -1,6 +1,6 @@
 	#source	"input.txt"
 	 
-' * Array, type:Double, length:10 v (offset 0)
+' * Double[10] v (offset 0)
 	 
 ' Invocation to main function
 	call main
@@ -13,8 +13,8 @@
 ' * Double value (offset -4)
 ' * Integer i (offset -6)
 ' * Integer j (offset -8)
-' * Array, type:Array, type:Integer, length:5, length:4 w (offset -48)
-' * Struct Type date (offset -54)
+' * Integer[5][4] w (offset -48)
+' * struct { Integer day, Integer month, Integer year,  } date (offset -54)
 	enter	54
 #Line	13
 ' * Read

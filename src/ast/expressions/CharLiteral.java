@@ -25,4 +25,9 @@ public class CharLiteral extends AbstractExpression {
     public <TP, TR> TR accept(Visitor<TP, TR> v, TP param) {
         return v.visit(this, param);
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getValue());
+    }
 }
