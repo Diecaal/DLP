@@ -16,6 +16,9 @@ import ast.expressions.Variable;
 import ast.statements.FunctionInvocation;
 import codeGeneration.visitor.AbstractCGVisitor;
 
+/**
+ * Handles Expression [+FunctionInvocation]
+ */
 public class ValueCGVisitor extends AbstractCGVisitor<Void,Void> {
 
     @Override

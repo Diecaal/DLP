@@ -6,12 +6,12 @@ R:  int paramBytesSum = 0;
         paramBytesSum += def.type.numberOfBytes();
     }
 
-P: FuncDefinition: funcDefinition -> type ID statements*
+P: FuncDefinition: funcDefinition -> type ID expressions* statements*
 R:  int localVariablesBytesSum = 0;
     for(int i=0;i<statements*.size(); i++) {
         VarDefinition varDefinition = statements*.get(i);
         localVariablesBytesSum += varDefinition.type.numberOfBytes();
-        varDefinition.offset = -localVariablesBytesSum;
+        varDefinition.offset = -localVariablesBytesSum; //VarDefintion offset this way in AG, Visitor preferred in implementation
     }
 
 P: FunctionType: functionType -> retType varDefinition*
@@ -33,5 +33,5 @@ R:  int variablesBytesSum = 0;
 P: StructType : structType -> recordFields*
 R:  int recordFieldsBytesSum = 0;
     for(RecordField field : recordFields*)
-        field.offset = recordFieldsBytesSum;
+        field.offset = recordFieldsBytesSum; //RecordField offset this way in AG, Visitor preferred in implementation
         recordFieldsBytesSum += field.type.numberOfBytes();

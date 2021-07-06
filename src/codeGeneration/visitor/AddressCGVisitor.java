@@ -6,6 +6,9 @@ import ast.expressions.StructField;
 import ast.expressions.Variable;
 import ast.types.StructType;
 
+/**
+ * Handles Variable, ArrayIndex and StructField (expressions with LValues present)
+ */
 public class AddressCGVisitor extends AbstractCGVisitor<Void,Void> {
 
     @Override
@@ -23,7 +26,7 @@ public class AddressCGVisitor extends AbstractCGVisitor<Void,Void> {
     public Void visit(StructField ast, Void param) {
         ast.getExpression().accept(address, param);
         /* Search the offset of provided field in the struct */
-        cg.writeInstruction("pushi\t" + ((StructType) ast.getExpression().getType()).getField(ast.getField()).getOffset() );
+        cg.writeInstruction("pushi\t" + ( (StructType) ast.getExpression().getType() ).getField(ast.getField()).getOffset() );
         cg.writeInstruction("addi");
 
         return null;

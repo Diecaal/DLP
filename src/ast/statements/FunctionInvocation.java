@@ -13,6 +13,7 @@ import java.util.List;
 public class FunctionInvocation extends AbstractStatement implements Expression {
     /* Parameters */
     private List<Expression> expressions;
+    /* Function - Variable  */
     private Variable variable;
     private boolean Lvalue;
     private Type type;

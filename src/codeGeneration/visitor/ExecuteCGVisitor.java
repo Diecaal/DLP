@@ -18,6 +18,9 @@ import codeGeneration.utils.execute.ReturnStatementDTO;
 
 import java.util.List;
 
+/**
+ * Handles Program, Statement [+FunctionInvocation] and Definition
+ */
 public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void> {
 
     @Override
@@ -66,6 +69,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor<ReturnStatementDTO,Void>
 
     @Override
     public Void visit(If ast, ReturnStatementDTO param) {
+        super.visit(ast, null);
         cg.writeLine(ast.getLine());
         int firstLabel = cg.requestLabels(2); // 2 labels IF - ELSE
         int secondLabel = firstLabel + 1;

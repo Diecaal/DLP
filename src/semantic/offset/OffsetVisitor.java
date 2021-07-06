@@ -4,7 +4,6 @@ import ast.Statement;
 import ast.definitions.*;
 import ast.types.*;
 import semantic.AbstractVisitor;
-
 import java.util.List;
 
 public class OffsetVisitor extends AbstractVisitor<Integer,Void> {
@@ -18,9 +17,10 @@ public class OffsetVisitor extends AbstractVisitor<Integer,Void> {
         int localSize = 0;
         /* Normal order in local variables definitions */
         for (Statement statement: ast.getStatements()) {
-            if (statement instanceof VariableDefinition)
+            if (statement instanceof VariableDefinition) {
                 localSize += ((VariableDefinition) statement).getType().getNumberOfBytes();
-            statement.accept(this, -localSize); //Remember '-' sign for this
+            }
+            statement.accept(this, -localSize); //Remember '-' sign for local
         }
 
         return null;
@@ -38,6 +38,7 @@ public class OffsetVisitor extends AbstractVisitor<Integer,Void> {
             var.accept(this, parametersBytes + 4);
             parametersBytes += var.getType().getNumberOfBytes();
         }
+
         return null;
     }
 
@@ -51,6 +52,7 @@ public class OffsetVisitor extends AbstractVisitor<Integer,Void> {
         } else {
             ast.setOffset( param ); // Local - parameter
         }
+
         return null;
     }
 
@@ -61,6 +63,7 @@ public class OffsetVisitor extends AbstractVisitor<Integer,Void> {
             record.accept(this, fieldsBytes);
             fieldsBytes += record.getType().getNumberOfBytes();
         }
+
         return null;
     }
 
@@ -68,6 +71,7 @@ public class OffsetVisitor extends AbstractVisitor<Integer,Void> {
     public Void visit(RecordField ast, Integer param) {
         super.visit(ast, param);
         ast.setOffset( param );
+
         return null;
     }
 }

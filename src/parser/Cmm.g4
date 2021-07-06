@@ -46,7 +46,7 @@ recordField_usage returns[List<RecordField> ast = new ArrayList<>()]:
                   ;
 
 // Functions
-functionDefinition returns[FunctionDefinition ast]: //FunctionType añadir
+functionDefinition returns[FunctionDefinition ast]:
                      t1=primitive_function_type id1=ID param1=parameters block1=functionBlock
                      { $ast = new FunctionDefinition($t1.ast.getLine(),$t1.ast.getColumn(),$id1.text,new FunctionType($t1.ast.getLine(),$t1.ast.getColumn(),$param1.ast,$t1.ast),$block1.ast); }
                    ;

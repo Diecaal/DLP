@@ -4,7 +4,7 @@ import ast.Expression;
 import semantic.Visitor;
 
 public class StructField extends AbstractExpression {
-    private Expression expression; //pair.integer -> allow integer to be expression
+    private Expression expression;
     private String field;
 
     public StructField(int line, int column, Expression expression, String field) {
